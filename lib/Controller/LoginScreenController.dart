@@ -53,6 +53,7 @@ class LoginScreenController extends GetxController {
       await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: "+213${phoneNumber.text}",
           verificationCompleted: (PhoneAuthCredential credential) async {
+            print('goooooooooooooooooood');
             await FirebaseAuth.instance
                 .signInWithCredential(credential)
                 .then((value) async {
@@ -61,9 +62,13 @@ class LoginScreenController extends GetxController {
           },
           verificationFailed: (FirebaseException e) {
             print('*************************${phoneNumber.text}');
+            print(e);
             AppController.showDialogButton('le code de vérification est erroné',
                 'votre code est erroné, veuillez ajouter', 'un code valide',
-                'assets/json/exclamation.json', Get.back());
+                'assets/json/exclamation.json', () {
+                  Get.back();
+                });
+
           },
           codeSent: (String verifictaionID, int? resendToken) {
             print("öööööööööööööööööööööööööööööööööööööööööööö");

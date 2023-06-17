@@ -7,8 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:project/View/OTPScreen.dart';
+import 'package:project/auth/auth.dart';
+import 'package:provider/provider.dart';
 
 import '../Controller/LoginScreenController.dart';
+import '../auth/user.dart';
 
 
 class LoginScreen extends StatelessWidget {
@@ -18,7 +21,7 @@ class LoginScreen extends StatelessWidget {
       LoginScreenController(),
       permanent: true,
     );
-
+    final user = Provider.of<MyUser?>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -235,8 +238,14 @@ class LoginScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: controller.submit1 && controller.submit2
                               ? () async {
+                            if (user!= null){
+                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
+                              await AuthService().singeOut();
+                            }
                             controller.createNewUser(controller.phoneNumber.text,controller.nom.text,);
-                            controller.signInWithPhoneNumber();
+                            await controller.signInWithPhoneNumber();
                            // Get.to(OTPScreen(phoneNumber: controller.phoneNumber.text));
                           } : null,
                           child: Text(

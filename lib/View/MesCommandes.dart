@@ -20,9 +20,9 @@ class MesCommandesScreen extends StatelessWidget {
     MesCommandesScreenController controllerM =
     Get.put(MesCommandesScreenController(), permanent: true);
     List list_of_commands=[];
-    //final user = Provider.of<MyUser?>(context);
+    final user = Provider.of<MyUser?>(context);
     return StreamBuilder<List<MaCommande>>(
-        stream:DatabaseService(uid:'ines').MaCommand ,
+        stream:DatabaseService(uid:user!.uid).MaCommand ,
         builder: (context, snapshot) {
            list_of_commands =controllerM.Data(snapshot);
           return SafeArea(

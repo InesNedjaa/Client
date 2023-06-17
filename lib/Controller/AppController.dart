@@ -13,27 +13,27 @@ import '../Widgets/customWithButtonDialog.dart';
 class AppController extends GetxController{
 
 
-  static void showDialogButton(String title,String ligne1,String ligne2,String asset,void function)async{
+  static void showDialogButton(String title, String ligne1, String ligne2, String asset, void Function() function) async {
     Get.dialog(
-      barrierDismissible:true,
       customWithButtonDialog(
-        fonction: ()=>function,
-        title:title,
+        fonction: () => function,
+        title: title,
         ligne1: ligne1,
         ligne2: ligne2,
         asset: asset,
       ),
+      barrierDismissible: true,
     );
   }
-  static void showDialogLogin(ligne1,ligne2)async{
+
+  static void showDialogLogin(ligne1, ligne2) async {
     Get.dialog(
-      barrierDismissible:false,
       customDialog(
-        title:'S''il vous plaît, attendez',
+        title: 'S\'il vous plaît, attendez',
         ligne1: ligne1,
         ligne2: ligne2,
-        asset: 'assets/json/sending.json',),
-
-    );}
-
-}
+        asset: 'assets/json/sending.json',
+      ),
+      barrierDismissible: false,
+    );
+  }}

@@ -7,9 +7,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-import '../Controller/AppController.dart';
+
 import '../Controller/LoginScreenController.dart';
-import '../Controller/SearchController.dart';
+import '../Controller/SearchController.dart' as app; // Alias for the SearchController class
 
 import '../Themes/Theme.dart';
 import '../Wrappers/wrapper2.dart';
@@ -18,9 +18,11 @@ import 'Food.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
-  List<Food> foodOneCategory =[];
-  List<Food> plat =[];
-  SearchController controller = Get.put(SearchController(), permanent: true);
+
+  List<Food> foodOneCategory = [];
+  List<Food> plat = [];
+  app.SearchController controller = Get.put(app.SearchController(), permanent: true); // Use the alias for the SearchController class
+
   @override
   Widget build(BuildContext context) {
 
@@ -99,7 +101,7 @@ class SearchScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 17.h,),
-                  GetBuilder<SearchController>(
+                  GetBuilder<app.SearchController>(
                     builder:(controller) {
                        return
                          Container(

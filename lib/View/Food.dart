@@ -69,7 +69,7 @@ class Food extends StatelessWidget {
               GetX<FoodController>(
                 builder: ( controller){
                   return ElevatedButton(onPressed:(){
-                    controller.ajouter_annuler(
+                    controller.ajouterAnnuler(
                         List_of_food  ,
                         Food(image: image, name: name, prix: prix, description: description, ajouter: ajouter, id: id, resId: resId, categore: categore,    ) , nom_restaurant ) ;
                   },
