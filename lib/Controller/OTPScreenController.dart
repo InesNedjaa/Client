@@ -58,7 +58,7 @@ class OTPScreenController extends GetxController{
       DatabaseService(uid: result.user!.uid)
           .updatUserdata();
       Get.toNamed('/welcome');
-      AuthService().singeOut(); //hadiiiiiii lazam ftest
+
     } catch (e) {
       AppController.showDialogButton(
           'le code de vérification est erroné',
