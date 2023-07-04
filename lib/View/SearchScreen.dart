@@ -7,8 +7,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
+
 import '../Controller/LoginScreenController.dart';
-import '../Controller/SearchController.dart';
+import '../Controller/SearchController.dart' as app; // Alias for the SearchController class
 
 import '../Themes/Theme.dart';
 import '../Wrappers/wrapper2.dart';
@@ -17,9 +18,11 @@ import 'Food.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
-  List<Food> foodOneCategory =[];
-  List<Food> plat =[];
-  SearchController controller = Get.find();
+
+  List<Food> foodOneCategory = [];
+  List<Food> plat = [];
+  app.SearchController controller = Get.put(app.SearchController(), permanent: true); // Use the alias for the SearchController class
+
   @override
   Widget build(BuildContext context) {
 
@@ -87,24 +90,18 @@ class SearchScreen extends StatelessWidget {
               ),
               SizedBox(height: 24.h,),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  GetBuilder<SearchController>(
-                      builder: (controller) {
-                        return Row(
-                          children: [
-                            SizedBox(width: 13.w,),
-                            controller.lo.length != 0 ? AutoSizeText( 'Restaurant',
-                                style:theme().textTheme.headline4
+                  Row(
+                    children: [
+                      SizedBox(width: 13.w,),
+                      controller.lo.length != 0 ? AutoSizeText( 'Restaurant',
+                          style:theme().textTheme.headline4
 
-                            ) : Container() ,
-                          ],
-                        );
-                      }
+                      ) : Container() ,
+                    ],
                   ),
                   SizedBox(height: 17.h,),
-                  GetBuilder<SearchController>(
+                  GetBuilder<app.SearchController>(
                     builder:(controller) {
                       return
                         Container(
@@ -130,82 +127,71 @@ class SearchScreen extends StatelessWidget {
                     },
                   ),
 
-                  GetBuilder<SearchController>(
-                      builder: (controller) {
-                        return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: Wrapper2.list2.length,
-                            itemBuilder: (context, index2) {
-                              return Column(
-                                children: [
-                                  SizedBox(height: 10.w,) ,
-                                  FutureBuilder<List<Food>>(
-                                      future: RestauService().getFoodListByCategory(Wrapper2.list2[index2].id),
-                                      builder: (context, snapshot) {
-                                        controller.remplir(snapshot,Wrapper2.list2[index2].nom);
+                  ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemCount: Wrapper2.list2.length,
+                      itemBuilder: (context, index2) {
+                        return Column(
+                          children: [
+                            SizedBox(height: 10.w,) ,
+                            FutureBuilder<List<Food>>(
+                                future: RestauService().getFoodListByCategory(Wrapper2.list2[index2].id),
+                                builder: (context, snapshot) {
+                                  controller.remplir(snapshot,Wrapper2.list2[index2].nom);
 
-                                        return Container();
-                                      }
-                                  ) ,
-                                ],
-                              );
+                                  return Container();
+                                }
+                            ) ,
+                          ],
+                        );
 
-                            });
-                      }
-                  ),
-                  GetBuilder<SearchController>(
-                      builder: (controller) {
-                        return ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: controller.food_result.length,
-                          itemBuilder: (context , index4) =>Column(
+                      }),
+                  ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: controller.food_result.length,
+                    itemBuilder: (context , index4) =>Column(
+                      children: [
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
+
                             children: [
-                              Row(
+                              SizedBox(width:13.w) ,
+                              AutoSizeText(
+                                controller.food_result[index4].nom_cat,
+                                style:theme().textTheme.headline4 , textAlign: TextAlign.start,
+                              ) , ]),
+                        Container(
+                          height : 220.h ,
+                          child: ListView.builder(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount : controller.food_result[index4].plat.length,
+                              itemBuilder: (context , index3) {
+
+                                return Row(
+
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-
                                   children: [
-                                    SizedBox(width:13.w) ,
-                                    AutoSizeText(
-                                      controller.food_result[index4].nom_cat,
-                                      style:theme().textTheme.headline4 , textAlign: TextAlign.start,
-                                    ) , ]),
-                              SizedBox(height: 17.h,),
-                              Container(
-                                height : 220.h ,
-                                child: ListView.builder(
-                                    physics: BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount : controller.food_result[index4].plat.length,
-                                    itemBuilder: (context , index3) {
+                                    SizedBox(width: 13.w,) ,
+                                    Container(
+                                      height: 220.h ,
+                                      width:281.w ,
+                                      child:
+                                      controller.food_result[index4].plat[index3],
+                                    )
 
-                                      return Row(
-
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(width: 13.w,) ,
-                                          Container(
-                                            height: 220.h ,
-                                            width:281.w ,
-                                            child:
-                                            controller.food_result[index4].plat[index3],
-                                          )
-
-                                        ],
-                                      );
-                                    }),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+                                  ],
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
                   )
                 ],
               ),

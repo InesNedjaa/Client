@@ -1,11 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
 import 'package:url_launcher/url_launcher.dart';
-
-
-import '../auth/auth.dart';
 import '../bdd/clientinfo.dart';
 import 'AppController.dart';
 import 'LoginScreenController.dart';

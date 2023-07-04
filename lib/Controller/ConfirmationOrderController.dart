@@ -14,6 +14,8 @@ class ConfirmationOrderController extends GetxController{
     CartController.commande.date=DateFormat('dd-MM-yyyy  kk:mm').format(DateTime.now());
     CartController.commande.etat='En cours' ;
     await DatabaseService(uid: user!.uid).writeCommande(message.text );
+    await DatabaseService(uid: user!.uid).writecommandetouser();
+
     update();
   }
   String generate_num_command(){
