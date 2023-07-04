@@ -274,17 +274,32 @@ langlat()async{
 ////////////////////////////////////////////////////////////////
 
   List<MaCommande> _MacommandList(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
+    List<MaCommande> maCommandes = snapshot.docs.map((doc) {
       return MaCommande(
         nom: doc.get("nom").toString(),
-          id: doc.id.toString(),
-          date: doc.get("date").toString(),
-          livraison: doc.get("Livraison").toInt(),
-          total: doc.get("Livraison").toInt()+doc.get("Livraison").toInt(),
-          etat:doc.get("etat").toString(),
-          voscommande: doc.get("Vos commandes").toInt());
+        id: doc.id.toString(),
+        date: doc.get("date").toString(),
+        livraison: doc.get("Livraison").toInt(),
+        total: doc.get("Livraison").toInt() + doc.get("Livraison").toInt(),
+        etat: doc.get("etat").toString(),
+        voscommande: doc.get("Vos commandes").toInt(),
+      );
     }).toList();
+
+
+    maCommandes.sort((a, b) {
+      if (a.etat == "En cours" && b.etat != "En cours") {
+        return -1;
+      } else if (a.etat != "En cours" && b.etat == "En cours") {
+        return 1; //
+      } else {
+        return a.date.compareTo(b.date);
+      }
+    });
+
+    return maCommandes;
   }
+
 
   Stream<List<MaCommande>> get MaCommand {
     return clientCollection

@@ -160,16 +160,16 @@ class Home extends StatelessWidget {
                         String image = 'assets/images/sandwich.svg';
                         if (t[index].nom=='Soup'){
                           image = 'assets/images/soup.svg';
-                        }else if(t[index].nom=='Pizza'){
+                        }else if(t[index].nom=='Pizzas'){
                           image =  'assets/images/pizza.svg';
-                        }else if(t[index].nom=='Sandwich'){
-                          image =  'assets/images/Sandwich.svg';
-                        }else if(t[index].nom=='Drink'){
-                          image =  'assets/images/Drink.svg';
+                        }else if(t[index].nom=='Sandwiches'){
+                          image =  'assets/images/sandwich.svg';
+                        }else if(t[index].nom=='Boissons'){
+                          image =  'assets/images/drink.svg';
                         }else if(t[index].nom=='Burger'){
                           image =  'assets/images/burger.svg';
                         }else if(t[index].nom=='Tacos'){
-                          image =  'assets/images/Tacos.svg';
+                          image =  'assets/images/tacos.svg';
                         }
                         final name =t[index].nom;
                         return Container(

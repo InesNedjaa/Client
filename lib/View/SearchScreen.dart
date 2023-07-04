@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
 import '../Controller/LoginScreenController.dart';
-import '../Controller/SearchController.dart' as app; // Alias for the SearchController class
+import '../Controller/SearchController.dart' as app;
 
 import '../Themes/Theme.dart';
 import '../Wrappers/wrapper2.dart';
@@ -18,11 +18,9 @@ import 'Food.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
-
-  List<Food> foodOneCategory = [];
-  List<Food> plat = [];
-  app.SearchController controller = Get.put(app.SearchController(), permanent: true); // Use the alias for the SearchController class
-
+  List<Food> foodOneCategory =[];
+  List<Food> plat =[];
+  app.SearchController controller = Get.put(app.SearchController(), permanent: true);
   @override
   Widget build(BuildContext context) {
 
