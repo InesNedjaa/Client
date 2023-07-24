@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:project/View/ConfirmationOrdersScreen.dart';
 import 'package:provider/provider.dart';
+import '../Wrappers/wrapper.dart';
 import '../auth/auth.dart';
 import '../auth/user.dart';
 import 'AdresseScreen.dart';
@@ -51,13 +53,13 @@ class MyApp extends StatelessWidget {
         ),
           initialRoute: 'wrapper',
         routes: {
-          '/': (context) => LoginScreen(),
+          '/': (context) => Wrapper(),
           //'login':(context)=>LoginScreen(),
           '/acceuil': (context) => Home(),
           '/otp': (context) => OTPScreen(phoneNumber: null,),
           '/adresse': (context) => AdresseScreen(),
           '/welcome': (context) => WelcomeScreen(),
-          '/orderconfirmer': (context) => OrderConfirmerScreen(),
+          '/confirmation' : (context) => ConfirmationOrdersScreen(),
           '/mescommandes': (context) => MesCommandes(),
          },
         );

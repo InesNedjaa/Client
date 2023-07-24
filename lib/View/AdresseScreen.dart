@@ -4,7 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project/View/ConfirmationOrdersScreen.dart';
+import 'package:provider/provider.dart';
 import '../Controller/AdresseScreenController.dart';
+import '../Controller/LoginScreenController.dart';
+import '../auth/user.dart';
+import '../bdd/clientinfo.dart';
 import 'currentPage.dart';
 
 
@@ -16,7 +21,7 @@ class AdresseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AdresseScreenController controller = Get.put( AdresseScreenController(),permanent: true,);
-
+    final user = Provider.of<MyUser?>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -137,7 +142,10 @@ class AdresseScreen extends StatelessWidget {
                       onPressed: controller.submitAdresse?()async {
                         FocusScope.of(context).unfocus();
                         controller.addAdresseUser(controller.Adresse.text);
-                        Get.off(Main_Page());
+
+                        DatabaseService(uid: user!.uid).update_user_Data(LoginScreenController.nom.text ,controller.Adresse.text);
+                        Get.previousRoute == '/confirmation' ? Get.to(ConfirmationOrdersScreen()) :
+                         Get.off(Main_Page());
                       }:null,
                       child: Text(
                         'Continue',

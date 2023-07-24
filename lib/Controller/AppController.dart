@@ -1,11 +1,6 @@
-import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
-import '../View/Food.dart';
-import '../View/OnBoarding_Pages.dart';
 import '../Widgets/customDialog.dart';
 import '../Widgets/customWithButtonDialog.dart';
 
@@ -36,4 +31,18 @@ class AppController extends GetxController{
       ),
       barrierDismissible: false,
     );
-  }}
+  }
+  static void showDialog() async {
+    Get.dialog(
+      customDialog(
+        title: 'Désoler',
+        ligne1: 'Vous ne pouvez pas commander de deux restaurants différents',
+        ligne2: '',
+        asset: 'assets/json/exclamation.json',
+      ),
+      barrierDismissible: true,
+    );
+  }
+}
+
+

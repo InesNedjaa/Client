@@ -2,9 +2,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:project/View/LoginScreen.dart';
 import 'package:provider/provider.dart';
-import '../View/AdresseScreen.dart';
 import '../View/OnBoardingScreen.dart';
-import '../auth/auth.dart';
+import '../View/currentPage.dart';
 import '../auth/user.dart';
 
 
@@ -19,7 +18,7 @@ class Wrapper extends StatelessWidget {
     if (user == null) {
       return OnBoardingScreen();
     } else {
-      return LoginScreen();
+      return Main_Page();
     }
   }
 }

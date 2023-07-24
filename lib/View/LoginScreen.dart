@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:project/View/OTPScreen.dart';
 import 'package:project/auth/auth.dart';
 import 'package:provider/provider.dart';
-
 import '../Controller/LoginScreenController.dart';
 import '../auth/user.dart';
 
@@ -130,7 +128,7 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.name,
                       textInputAction: TextInputAction.done,
                       textAlignVertical: TextAlignVertical.center,
-                      controller: controller.nom,
+                      controller: LoginScreenController.nom,
                       onChanged: (value) {
                         controller.onSubmitLogin();
                       },
@@ -244,7 +242,7 @@ class LoginScreen extends StatelessWidget {
                               print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
                               await AuthService().singeOut();
                             }
-                            controller.createNewUser(controller.phoneNumber.text,controller.nom.text,);
+                            controller.createNewUser(controller.phoneNumber.text,LoginScreenController.nom.text,);
                             await controller.signInWithPhoneNumber();
                            // Get.to(OTPScreen(phoneNumber: controller.phoneNumber.text));
                           } : null,

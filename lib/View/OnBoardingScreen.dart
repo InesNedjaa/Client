@@ -3,12 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:project/View/LoginScreen.dart';
 import '../Controller/OnBoardingController.dart';
-import '../Controller/Restaurants_controller.dart';
 import '../Themes/Theme.dart';
 import 'Dots.dart';
 import 'OnBoardContent.dart';
-import 'RestaurantsScreen.dart';
 
 
 class OnBoardingScreen extends StatelessWidget {
@@ -60,9 +59,7 @@ class OnBoardingScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(9.0),
                           side: BorderSide(color: Colors.red))),
                   onPressed: () {
-                  Get.put(Restaurants_controller() , permanent: true) ;
-               //   Get.put(FoodController() , permanent: true) ;
-                 Get.to(() => RestaurantsScreen()) ;
+                 Get.to(() => LoginScreen()) ;
                   ; },
                   child: AutoSizeText('Continue' ,
                     style: theme().textTheme.headline2

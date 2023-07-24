@@ -3,15 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
-import 'package:project/View/currentPage.dart';
-import 'package:project/View/map.dart';
 import 'package:provider/provider.dart';
-
-import '../Controller/LoginScreenController.dart';
 import '../Themes/Theme.dart';
 import '../auth/user.dart';
 import '../bdd/clientinfo.dart';
 import '../controller/ConfirmationOrderController.dart';
+import 'AdresseScreen.dart';
 import 'OrderConfirmer.dart';
 
 class ConfirmationOrdersScreen extends StatelessWidget {
@@ -19,9 +16,9 @@ class ConfirmationOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- ConfirmationOrderController controller =Get.put(ConfirmationOrderController() , permanent: true) ;
+ ConfirmationOrderController controller =Get.put(ConfirmationOrderController() , permanent: false) ;
 
- String text ='';
+ RxString address= "".obs ;
  final user = Provider.of<MyUser?>(context);
     return
       SafeArea(
@@ -89,19 +86,31 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
 
-                                  AutoSizeText( 'Votre adresse\n${LoginScreenController.user.Adresse}',
-                                    textAlign: TextAlign.start,
-                                    style: theme().textTheme.bodyText1,) ,
+                                  StreamBuilder<String>(
+                                      stream: DatabaseService(uid: user!.uid).address,
+                                      builder: (context, snapshot) {
+
+                                        if (snapshot.hasData){
+                                          address.value=snapshot.data!;
+                                          print(address);
+                                        }
+                                        return AutoSizeText(
+                                          'Votre adresse\n${address.value}',
+                                          style: TextStyle(
+                                            fontFamily: 'Golos',
+                                            fontSize: 15.sp,
+                                          ),
+                                        );
+                                      }
+                                  ),
 
                                 ],
                               ),
                             ) ,
                             TextButton(
-                              onPressed: () {    Navigator.push(
-
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage())); },
+                              onPressed: () {
+                                Get.to(AdresseScreen());
+                              },
                               child: AutoSizeText(
                                 'Modifier' ,
                                 textAlign: TextAlign.start,
@@ -133,9 +142,7 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                           fillColor: Color(0xffE4E4E4),
 
                         ),
-                        onChanged: (value){
-                          text=value;
-                        },
+
                       ),
                     ),
                     Spacer(flex: 2,) ,
@@ -152,11 +159,11 @@ class ConfirmationOrdersScreen extends StatelessWidget {
 
                             onPressed: () async {
                               try{
-                                List<Location> locations = await locationFromAddress(LoginScreenController.user.Adresse);
+                                List<Location> locations = await locationFromAddress(address.value);
                                 await DatabaseService(uid: user!.uid).longitude(locations[0].longitude);
                                 await DatabaseService(uid: user.uid).latitude(locations[0].latitude);
                                 controller.confirm_command(user);
-                                Get.to(OrderConfirmerScreen());}
+                                }
                               catch(e){
                                 print(e);
 

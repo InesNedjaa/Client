@@ -7,12 +7,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
-
+import 'package:provider/provider.dart';
 import '../Controller/LoginScreenController.dart';
-import '../Controller/SearchController.dart' as app;
+import '../Controller/SearchController.dart' as search;
 
 import '../Themes/Theme.dart';
 import '../Wrappers/wrapper2.dart';
+import '../auth/user.dart';
+import '../bdd/clientinfo.dart';
 import '../bdd/restauinfo.dart';
 import 'Food.dart';
 
@@ -20,10 +22,11 @@ class SearchScreen extends StatelessWidget {
   SearchScreen({Key? key}) : super(key: key);
   List<Food> foodOneCategory =[];
   List<Food> plat =[];
-  app.SearchController controller = Get.put(app.SearchController(), permanent: true);
+  search.SearchController controller = Get.find();
+
   @override
   Widget build(BuildContext context) {
-
+    final user = Provider.of<MyUser?>(context);
 
     return SafeArea(
       child: Scaffold(
@@ -38,13 +41,19 @@ class SearchScreen extends StatelessWidget {
                   SizedBox(
                     width: 13.w,
                   ),
-                  AutoSizeText(
-                    'Salut ${LoginScreenController.user.nom} ,\nBienvenue dans notre magasin !',
-                    style: TextStyle(
-                      fontSize: 15.sp,
-                      fontFamily: 'Golos',
-                      fontWeight: FontWeight.w400,
-                    ),
+                  StreamBuilder<String>(
+                      stream: DatabaseService(uid: user!.uid).Lenom,
+                      builder: (context, snapshot) {
+                        RxString nom ="".obs ;
+                        if (snapshot.hasData){
+                          nom.value=snapshot.data!;
+
+                        }
+                        return AutoSizeText(
+                            'Salut ${nom.value},\nBienvenue dans notre magasin !',
+                            style: theme().textTheme.bodyText1?.copyWith(color: Colors.black)
+                        );
+                      }
                   ),
                 ],
               ),
@@ -58,12 +67,14 @@ class SearchScreen extends StatelessWidget {
                       height: 56.h,
                       width: 401.w,
                       child: TextField(
-                        onSubmitted: (value){
-                          print("////////////////////////:");
-                          controller.sug( );
-                          print(controller.food_result.length);
-                          controller.sug2();
-                          print(controller.food_result.length);
+                        onChanged: (value){
+                          controller.input_value.value=value;
+                         if( value !="" )
+                           {
+                             controller.sug( ) ;
+
+                          controller.sug2(); }
+
                         },
                         controller: controller.input,
                         textAlign: TextAlign.left,
@@ -86,113 +97,136 @@ class SearchScreen extends StatelessWidget {
                     ),
                   ]
               ),
-              SizedBox(height: 24.h,),
-              Column(
-                children: [
-                  Row(
+              SizedBox(height: controller.lo.length != 0 ? 24.h:0,),
+             GetX<search.SearchController>(
+               builder: (controller) {
+                 return
+                   controller.input_value.value!= "" ?
+                       Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(width: 13.w,),
-                      controller.lo.length != 0 ? AutoSizeText( 'Restaurant',
-                          style:theme().textTheme.headline4
+                      GetBuilder<search.SearchController>(
+                          builder: (controller) {
+                            return Row(
+                              children: [
+                                SizedBox(width: 13.w,),
+                                controller.lo.length != 0 ? AutoSizeText( 'Restaurant',
+                                    style:theme().textTheme.headline4
 
-                      ) : Container() ,
-                    ],
-                  ),
-                  SizedBox(height: 17.h,),
-                  GetBuilder<app.SearchController>(
-                    builder:(controller) {
-                      return
-                        Container(
-                            height: 290.h,
-                            child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
+                                ) : Container() ,
+                              ],
+                            );
+                          }
+                      ),
+                      SizedBox(height: controller.lo.length != 0 ?17.h:0,),
+                      GetBuilder<search.SearchController>(
+                        builder:(controller) {
+                          return
+                            Container(
+                                height:controller.lo.length != 0 ? 290.h :0,
+                                child: ListView.builder(
+                                    physics: BouncingScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    shrinkWrap: true,
+                                    itemCount:controller.lo.length ,
+                                    itemBuilder: (context, index) => Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(width: 13.w,),
+                                        Container(
+                                            height: 310.h,
+                                            width: 389.w,
+                                            child: controller.lo[index])
+                                      ],
+                                    )));
+                        },
+                      ),
+
+                      GetBuilder<search.SearchController>(
+                          builder: (controller) {
+                            return ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                itemCount:controller.lo.length ,
-                                itemBuilder: (context, index) => Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.start,
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(width: 13.w,),
-                                    Container(
-                                        height: 310.h,
-                                        width: 389.w,
-                                        child: controller.lo[index])
-                                  ],
-                                )));
-                    },
-                  ),
+                                scrollDirection: Axis.vertical,
+                                itemCount: Wrapper2.list2.length,
+                                itemBuilder: (context, index2) {
+                                  return Column(
+                                    children: [
+                                      SizedBox(height: 10.w,) ,
+                                      FutureBuilder<List<Food>>(
+                                          future: RestauService().getFoodListByCategory(Wrapper2.list2[index2].id),
+                                          builder: (context, snapshot) {
+                                            controller.remplir(snapshot,Wrapper2.list2[index2].nom);
 
-                  ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: Wrapper2.list2.length,
-                      itemBuilder: (context, index2) {
-                        return Column(
-                          children: [
-                            SizedBox(height: 10.w,) ,
-                            FutureBuilder<List<Food>>(
-                                future: RestauService().getFoodListByCategory(Wrapper2.list2[index2].id),
-                                builder: (context, snapshot) {
-                                  controller.remplir(snapshot,Wrapper2.list2[index2].nom);
+                                            return Container();
+                                          }
+                                      ) ,
+                                    ],
+                                  );
 
-                                  return Container();
-                                }
-                            ) ,
-                          ],
-                        );
-
-                      }),
-                  ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: controller.food_result.length,
-                    itemBuilder: (context , index4) =>Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              SizedBox(width:13.w) ,
-                              AutoSizeText(
-                                controller.food_result[index4].nom_cat,
-                                style:theme().textTheme.headline4 , textAlign: TextAlign.start,
-                              ) , ]),
-                        Container(
-                          height : 220.h ,
-                          child: ListView.builder(
+                                });
+                          }
+                      ),
+                      GetBuilder<search.SearchController>(
+                          builder: (controller) {
+                            return ListView.builder(
                               physics: BouncingScrollPhysics(),
                               shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              itemCount : controller.food_result[index4].plat.length,
-                              itemBuilder: (context , index3) {
+                              itemCount: controller.food_result.length,
+                              itemBuilder: (context , index4) =>Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
 
-                                return Row(
+                                      children: [
+                                        SizedBox(width:13.w) ,
+                                        AutoSizeText(
+                                          controller.food_result[index4].nom_cat,
+                                          style:theme().textTheme.headline4 , textAlign: TextAlign.start,
+                                        ) , ]),
+                                  SizedBox(height: 17.h,),
+                                  Container(
+                                    height : 220.h ,
+                                    child: ListView.builder(
+                                        physics: BouncingScrollPhysics(),
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount : controller.food_result[index4].plat.length,
+                                        itemBuilder: (context , index3) {
 
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(width: 13.w,) ,
-                                    Container(
-                                      height: 220.h ,
-                                      width:281.w ,
-                                      child:
-                                      controller.food_result[index4].plat[index3],
-                                    )
+                                          return Row(
 
-                                  ],
-                                );
-                              }),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(width: 13.w,) ,
+                                              Container(
+                                                height: 220.h ,
+                                                width:281.w ,
+                                                child:
+                                                controller.food_result[index4].plat[index3],
+                                              )
+
+                                            ],
+                                          );
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                      )
+                    ],
+                  ):Container();
+               }
+             ),
 
 
             ],

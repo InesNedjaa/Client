@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:project/View/LoginScreen.dart';
 import 'package:project/auth/user.dart';
 
 
@@ -22,6 +25,7 @@ class AuthService{
 // signe out
   Future singeOut() async {
     try{
+      Get.to(LoginScreen());
       return await _auth.signOut();
     }catch(e){
       return null ;

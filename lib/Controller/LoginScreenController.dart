@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:project/Controller/AppController.dart';
 import 'package:project/View/OTPScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../classes/user.dart';
 
 
 
@@ -14,23 +13,15 @@ class LoginScreenController extends GetxController {
   bool hasInternet=false;
   bool codeIsComing=true;
   final phoneNumber= new TextEditingController();
-  final nom= new TextEditingController();
+  static final  nom= new TextEditingController();
   bool submit1=false;
   bool submit2=false;
   final Uri _number = Uri.parse('tel:+213556000010');
-  static late User2 user;
+
   static String verificationCode='';
 
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-  void onClose() {
 
-    nom.dispose();
-    super.onClose();
-  }
   void onSubmitLogin() {
     submit1=phoneNumber.text.length==9;
     submit2=nom.text.isNotEmpty;
@@ -43,7 +34,7 @@ class LoginScreenController extends GetxController {
     update();
   }
   void createNewUser(String numTel,String nom)async {
-    user=User2(numTel,nom,);
+
 
 
 
@@ -57,12 +48,11 @@ class LoginScreenController extends GetxController {
             await FirebaseAuth.instance
                 .signInWithCredential(credential)
                 .then((value) async {
-              if (value.user!=null){print('loggin');};
+
             });
           },
           verificationFailed: (FirebaseException e) {
-            print('*************************${phoneNumber.text}');
-            print(e);
+
             AppController.showDialogButton('le code de vérification est erroné',
                 'votre code est erroné, veuillez ajouter', 'un code valide',
                 'assets/json/exclamation.json', () {
@@ -71,10 +61,11 @@ class LoginScreenController extends GetxController {
 
           },
           codeSent: (String verifictaionID, int? resendToken) {
-            print("öööööööööööööööööööööööööööööööööööööööööööö");
-            print(LoginScreenController.user);
+
             Get.to(OTPScreen(phoneNumber: phoneNumber.text));
             verificationCode = verifictaionID;
+            phoneNumber.clear();
+
           },
           codeAutoRetrievalTimeout: (String verifictaionID) {
             verificationCode = verifictaionID;

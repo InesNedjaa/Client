@@ -12,6 +12,6 @@ class Commande {
  final String adresse_restaurant;
  final String adresse_client ;
  late var  message;
- var numero_commande;
- Commande(this.numero_commande,this.adresse_restaurant, this.adresse_client, {required this.restaurant,this.date,required this.plats,required this.etat,this.message});
+ late String numero_commande;
+ Commande(this.adresse_restaurant, this.adresse_client, {required this.numero_commande ,required this.restaurant,this.date,required this.plats,required this.etat,this.message});
 }

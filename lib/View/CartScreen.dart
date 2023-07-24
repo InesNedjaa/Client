@@ -333,7 +333,7 @@ class CartScreen extends StatelessWidget {
                                                                 .red))),
                                                 onPressed: () {
 
-                                                  Get.to(ConfirmationOrdersScreen());
+                                                  Get.toNamed('/confirmation');
                                                 },
                                                 child: AutoSizeText(
                                                     'Continue',

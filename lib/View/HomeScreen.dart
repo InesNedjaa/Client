@@ -1,16 +1,21 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:project/auth/auth.dart';
+import 'package:project/bdd/clientinfo.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../Controller/HomeScreenController.dart';
 import '../Controller/LoginScreenController.dart';
 import '../Themes/Theme.dart';
+import '../auth/user.dart';
 import '../bdd/classes.dart';
 import '../bdd/restauinfo.dart';
 import '../classes/promotion.dart';
@@ -25,8 +30,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.put(HomeScreenController(), permanent: true);
-
+    final user = Provider.of<MyUser?>(context);
     var is_loaded = true ;
+
 
 
     return Scaffold(
@@ -37,10 +43,29 @@ class Home extends StatelessWidget {
               SizedBox(
             width: 13.w,
           ),
-              AutoSizeText(
-            'Salut ${LoginScreenController.user.nom} ,\nBienvenue dans notre magasin !',
+              Expanded(
+                child: StreamBuilder<String>(
+                  stream: DatabaseService(uid: user!.uid).Lenom,
+                  builder: (context, snapshot) {
+                    RxString nom ="".obs ;
+                    if (snapshot.hasData){
+                      nom.value=snapshot.data!;
+
+                    }
+                    return AutoSizeText(
+            'Salut ${nom.value},\nBienvenue dans notre magasin !',
             style: theme().textTheme.bodyText1?.copyWith(color: Colors.black)
-          ),
+          );
+                  }
+                ),
+              ),
+              IconButton(onPressed: (){
+                LoginScreenController.nom.clear();
+                AuthService().singeOut();
+
+              },
+                  icon: Icon(EvaIcons.logInOutline , color: Colors.black, size: 30.sp,)
+              )
             ],
           ),
           SizedBox(height: 26.h,),
@@ -61,12 +86,22 @@ class Home extends StatelessWidget {
                     Image.asset('assets/images/camion.png'),
                     SizedBox(width: 7.w,),
                     Expanded(
-                      child: AutoSizeText(
-                        'Votre adresse\n${LoginScreenController.user.Adresse}',
-                        style: TextStyle(
-                          fontFamily: 'Golos',
-                          fontSize: 15.sp,
-                        ),
+                      child: StreamBuilder<String>(
+                        stream: DatabaseService(uid: user!.uid).address,
+                        builder: (context, snapshot) {
+                          RxString address= "".obs ;
+                          if (snapshot.hasData){
+                            address.value=snapshot.data!;
+                            print(address);
+                          }
+                          return AutoSizeText(
+                            'Votre adresse\n${address.value}',
+                            style: TextStyle(
+                              fontFamily: 'Golos',
+                              fontSize: 15.sp,
+                            ),
+                          );
+                        }
                       ),
                     ),
                     TextButton(

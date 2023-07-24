@@ -18,12 +18,8 @@ class FoodController extends GetxController {
         if (index != -1) list.removeAt(index);
       }
     }()
-        : AppController.showDialogButton(
-        'le code de vérification est erroné',
-        'votre code est erroné, veuillez ajouter',
-        'un code valide',
-        'assets/json/exclamation.json',
-            () {} // Provide a valid function here
+        : AppController.showDialog(
+
     );
   }
 }

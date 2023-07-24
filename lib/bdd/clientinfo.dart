@@ -26,12 +26,20 @@ class DatabaseService {
   updatUserdata() {
     clientCollection.doc(uid).get().then((value) {
       if (!value.exists) {
-        clientCollection.doc(uid).set(
-            { "panier": 0.toInt()});
+        clientCollection.doc(uid).update(
+            { "panier": 0.toInt() });
       }
     });
   }
+  update_user_Data(String nom , String address) {
+      clientCollection.doc(uid).get().then((value) {
+        if (value.exists) {
+          clientCollection.doc(uid).update(
+              { "nom" : nom , "address" : address});
+        }
+      });
 
+  }
   int _existpanier(DocumentSnapshot snapshot) {
     return snapshot.get("panier").toInt();
   }
@@ -44,7 +52,8 @@ class DatabaseService {
   }
   //*******************************************************************************************
   String _Lenom(DocumentSnapshot snapshot) {
-    return snapshot.get("nom").toString();
+    return
+      snapshot.get("nom").toString();
   }
 
   Stream<String> get Lenom {
@@ -52,6 +61,17 @@ class DatabaseService {
         .doc(uid)
         .snapshots()
         .map((snapshot) => _Lenom(snapshot));
+  }
+  String _address(DocumentSnapshot snapshot) {
+    return
+      snapshot.get("address").toString();
+  }
+
+  Stream<String> get address {
+    return clientCollection
+        .doc(uid)
+        .snapshots()
+        .map((snapshot) => _address(snapshot));
   }
 //********************************************************************************************
 

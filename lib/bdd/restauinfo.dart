@@ -19,13 +19,13 @@ static List<Food> List_of_food =[];
 final CollectionReference restauCollection =
 FirebaseFirestore.instance.collection('Restaurant');
 
-////////////////////////////////////////////////////////////////
+//////////////////////////////////d//////////////////////////////
 
 
 List<Promotion> _promotion(QuerySnapshot snapshot) {
 return snapshot.docs.map((doc) {
 return Promotion(
-image: doc.get("pic").toString(),
+image: doc.get("ImageUrl").toString(),
 nameRestaurant: doc.get("name").toString(),
 offre: doc.get("offre").toString(),
 descriptionOffre: doc.get("descOffre").toString(),

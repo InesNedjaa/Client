@@ -3,9 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
 import 'package:provider/provider.dart';
-import '../Controller/AppController.dart';
 import '../Controller/MesCommandesScreenController.dart';
 import '../auth/user.dart';
 import '../bdd/classes.dart';
@@ -19,7 +17,6 @@ class MesCommandes extends StatelessWidget {
   Widget build(BuildContext context) {
     MesCommandesScreenController controller =
     Get.put(MesCommandesScreenController(), permanent: true);
-   // AppController controller =Get.put(AppController() , permanent: true);
     final user = Provider.of<MyUser?>(context);
 
 
@@ -192,6 +189,7 @@ class MesCommandes extends StatelessWidget {
                                                       SizedBox(
                                                         height: 17.h,
                                                       ),
+
                                                       StreamBuilder<List<Maplat>>(
                                                           stream: DatabaseService(uid: user.uid).Mapla(controller.command[index].id),
                                                           builder: (context, snapshot) {
@@ -247,6 +245,40 @@ class MesCommandes extends StatelessWidget {
                                                                           ))
                                                                 ]);
                                                           }
+                                                      ),
+                                                      SizedBox(
+                                                        height: 8.h,
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: AutoSizeText(
+                                                          'ID',
+                                                          style: TextStyle(
+                                                            fontSize: 15.sp,
+                                                            fontWeight:
+                                                            FontWeight.w400,
+                                                            fontFamily: 'Golos',
+                                                          ),
+                                                          maxLines: 1,
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment: Alignment
+                                                            .centerLeft,
+                                                        child: AutoSizeText(
+                                                          '${controller.command[index].id}',
+                                                          style: TextStyle(
+                                                              fontSize: 15.sp,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w400,
+                                                              fontFamily:
+                                                              'Golos',
+                                                              color: Color(
+                                                                  0xff9D9D9D)),
+                                                          maxLines: 1,
+                                                        ),
                                                       ),
                                                       SizedBox(
                                                         height: 8.h,

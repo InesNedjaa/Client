@@ -7,32 +7,27 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:project/View/Food.dart';
 import 'package:project/bdd/restauinfo.dart';
 import 'package:shimmer/shimmer.dart';
-
+import '../Controller/CategoryScreenController.dart';
 import '../Controller/RestaurantController.dart';
 import '../Controller/Restaurants_controller.dart';
 import '../Themes/Theme.dart';
+import '../Wrappers/wrapper2.dart';
+import 'Food_Search.dart';
+import 'Restaurant.dart';
 
 
 class CategoryScreen extends StatelessWidget {
   final String category_name,id ;
   CategoryScreen({Key? key, required this.category_name, required this.id}) : super(key: key);
 
-  Restaurants_controller controller = Get.put(Restaurants_controller()) ;
+  CategoryScreenController controller = Get.put(CategoryScreenController()) ;
 
   @override
   Widget build(BuildContext context) {
-    Get.put(RestaurantController()) ;
-    return
 
-      FutureBuilder<List<Food>>(
-        future: RestauService().getFoodListByCategory(id),
-        builder: (context, snapshot) {
 
-          List<Food> food=[];
-          if (snapshot.hasData){
-            food=snapshot.data!;
-          }
-          return SafeArea(
+          return
+            SafeArea(
               child: Scaffold(
                   body:
                   SingleChildScrollView(
@@ -41,6 +36,16 @@ class CategoryScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                    FutureBuilder<List<Restaurant>>(
+                    future: RestauService().getRestaurantList() ,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          controller.restaurant = snapshot.data!;
+
+                        }
+
+                        return Container();
+                      }),
                         SizedBox(height: 25.h,),
                         Positioned(
                           top: 10.h,
@@ -80,32 +85,36 @@ class CategoryScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 20.h,),
-                        GetBuilder<Restaurants_controller>(
-                            builder: (controller){return controller.is_loaded ?
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: food.length,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      SizedBox(width: 15.w,),
-                                      Container(
-                                        height: 270.h,
-                                        width:281.w ,
-                                        child: food[index] ,
-                                      ),
-                                      // Spacer(flex: 14,)
-                                    ],
-                                  ) ;
-                                }) : shimmer_restaurant(controller.restaurants) ;})
+
+                              FutureBuilder<List<Food>>(
+                                  future: RestauService().getFoodListByCategory(id),
+                                  builder: (context, snapshot) {
+                                     controller.categories_items(snapshot);
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: controller.food.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          SizedBox(width: 15.w,),
+                                          Container(
+                                            height: 270.h,
+                                            width:281.w ,
+                                            child: controller.food[index] ,
+                                          ),
+                                          // Spacer(flex: 14,)
+                                        ],
+                                      ) ;
+                                    });
+                              }
+                            )
                       ],
                     ),
                   )
               )
           );
-        }
-      )  ;
+
   }
   Widget shimmer_restaurant ( List restaurant){
     return

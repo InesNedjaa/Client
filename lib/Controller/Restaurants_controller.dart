@@ -7,7 +7,7 @@ import '../View/Restaurant.dart';
 
 class Restaurants_controller extends GetxController {
   bool is_loaded = false;
-  final List<Restaurant> restaurants = [
+  List<Restaurant> restaurants = [
 
   ];
   @override

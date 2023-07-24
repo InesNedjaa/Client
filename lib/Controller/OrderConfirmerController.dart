@@ -7,10 +7,10 @@ import 'CartController.dart';
 class OrderConfirmerController extends GetxController{
   void archiveCurrentCommand(Commande c){
 
-    for(Food food in CartController.commande.plats) {
+   /* for(Food food in CartController.commande.plats) {
       food.ajouter.value=false;
-    }
-   // CartController.commande= Commande('', '' , '' ,restaurant:'',plats:<Food>[].obs,etat: '');
+    }*/
+   CartController.commande= Commande('', '' ,restaurant:'',plats:<Food>[].obs,etat: '', numero_commande: '');
     update() ;
 
   }

@@ -40,21 +40,24 @@ class _PromotionState extends State<Promotion> {
             child: Row(
               children: [
                 SizedBox(width: 10.w,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Spacer(flex:20,),
-                    AutoSizeText('${widget.nameRestaurant}',
-                      style: TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w500,fontSize: 15.sp,color: Colors.white),),
-                    Spacer(flex:4,),
-                    AutoSizeText('${widget.offre}',style:TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w500,fontSize: 16.sp,color: Colors.white),),
-                    Spacer(flex: 4,),
-                    AutoSizeText('${widget.descriptionOffre}',style: TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w400,fontSize: 15.sp,color: Colors.white),),
-                    Spacer(flex: 20,),
+                 Expanded(
+                   child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Spacer(flex:20,),
+                        AutoSizeText('${widget.nameRestaurant}',
+                          style: TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w500,fontSize: 15.sp,color: Colors.white),),
+                        Spacer(flex:4,),
+                        AutoSizeText('${widget.offre}',style:TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w500,fontSize: 16.sp,color: Colors.white),),
+                        Spacer(flex: 4,),
+                        AutoSizeText('${widget.descriptionOffre}',style: TextStyle(fontFamily: 'Golos',fontWeight: FontWeight.w400,fontSize: 15.sp,color: Colors.white),),
+                        Spacer(flex: 20,),
 
-                  ],
-                ),
-                SizedBox(width: 15.w,),
+                      ],
+                    ),
+                 ),
+
+
                 Column(
                   children: [
                     Spacer(flex: 20,),
@@ -66,12 +69,11 @@ class _PromotionState extends State<Promotion> {
                           backgroundImage: NetworkImage(widget.image),
                           radius: 40.r,
                         )
-                      /* Container(
-                          width:112.w,
-                          child: Image.network(widget.image)),*/
+
                     ),
                     Spacer(flex: 20,),
-                  ],)
+                  ],),
+                SizedBox(width: 10.w,),
               ],
             ),
           ),

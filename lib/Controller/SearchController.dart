@@ -17,7 +17,7 @@ class SearchController extends GetxController {
   List<categorie> categoriesResult=[];
   List<categorie> food=<categorie>[];
   List<categorie> food_result=[];
-
+  RxString input_value ="".obs ;
   final input=TextEditingController();
   void sug() {
     List<Restaurant> l = [];

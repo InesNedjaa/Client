@@ -25,7 +25,6 @@ class Wrapper2 extends StatelessWidget {
             list = snapshot.data!;
 
           }
-          // SearchScreen.lo=list.obs;
 
           return FutureBuilder<List<cat>>(
               future: RestauService().getCatList(),

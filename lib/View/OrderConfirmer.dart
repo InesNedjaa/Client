@@ -1,8 +1,9 @@
-//import 'dart:html';
+
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -13,7 +14,8 @@ import '../Controller/OrderConfirmerController.dart';
 import 'currentPage.dart';
 
 class OrderConfirmerScreen extends StatelessWidget {
-  OrderConfirmerScreen({Key? key}) : super(key: key);
+  final String id_commande ;
+  OrderConfirmerScreen({Key? key, required this.id_commande}) : super(key: key);
   OrderConfirmerController controller =Get.put(OrderConfirmerController(),permanent:true);
   Current_Page_Controller current_page_controller =Get.put(Current_Page_Controller());
   @override
@@ -48,7 +50,7 @@ class OrderConfirmerScreen extends StatelessWidget {
                       child: AutoSizeText(
                         'Votre commande en route',
                         style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 28.sp,
                             fontFamily: 'Golos'
                         ),
                         maxLines: 1,
@@ -69,7 +71,7 @@ class OrderConfirmerScreen extends StatelessWidget {
                         'vers vous',
                         maxLines: 1,
                         style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 28.sp,
                             fontFamily: 'Golos'
                         ),
                       ),
@@ -87,10 +89,10 @@ class OrderConfirmerScreen extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.center,
                       child: AutoSizeText(
-                        'Numéro de commande :${CartController.commande.numero_commande}',
+                        'Numéro de commande :${id_commande}',
                         maxLines: 2,
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           color: Color(0xff807F7F),
                           fontFamily: 'Golos',
                         ),
@@ -113,7 +115,7 @@ class OrderConfirmerScreen extends StatelessWidget {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                        //  controller.archiveCurrentCommand(CartController.commande);
+                          controller.archiveCurrentCommand(CartController.commande);
                           current_page_controller.currentindex.value=3;
                           Get.to(Main_Page());
                         },
@@ -121,14 +123,14 @@ class OrderConfirmerScreen extends StatelessWidget {
                           'Continue',
                           style: TextStyle(
                             fontFamily: 'Golos',
-                            fontSize: 22,
+                            fontSize: 22.sp,
                             color: Colors.white,
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Color(0xffE6424B),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(9.0),
+                                borderRadius: BorderRadius.circular(9.r),
                                 side: BorderSide(color: Color(0xffE6424B)))),
                       ),
                     ),
