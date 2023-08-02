@@ -281,7 +281,7 @@ class RestaurantScreen extends StatelessWidget {
                                                           List_of_food.isNotEmpty&&(CartController.commande.restaurant==name
                                                               ||CartController.commande.restaurant=="")
                                                       )
-                                                          ?()=>controller.continuer(name,List_of_food) :null ,
+                                                          ?()=>controller.continuer(name,image,List_of_food) :null ,
 
                                                       child: AutoSizeText('Continue' ,
                                                           style: theme().textTheme.headline2

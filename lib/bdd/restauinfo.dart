@@ -24,7 +24,7 @@ FirebaseFirestore.instance.collection('Restaurant');
 List<Promotion> _promotion(QuerySnapshot snapshot) {
 return snapshot.docs.map((doc) {
 return Promotion(
-image: doc.get("pic").toString(),
+image: doc.get("ImageUrl").toString(),
 nameRestaurant: doc.get("name").toString(),
 offre: doc.get("offre").toString(),
 descriptionOffre: doc.get("descOffre").toString(),

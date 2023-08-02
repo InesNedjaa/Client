@@ -105,9 +105,10 @@ class RestaurantScreen_controller extends GetxController
     tabController.dispose();
     super.onClose();
   }
-  void continuer ( String name,RxList<Food> list)
+  void continuer ( String name,String image,RxList<Food> list)
   {
     CartController.commande.restaurant=name ;
+    CartController.commande.ImageUrl=image ;
     CartController.commande.plats=list.value ;
     controller.currentindex.value=2;
     Get.to(Main_Page()) ;

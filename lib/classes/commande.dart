@@ -5,6 +5,7 @@ import '../../View/Food.dart';
 
 class Commande {
  late  String restaurant;
+ late  String ImageUrl;
  late var date;
  late List<Food> plats;
  late String etat;
@@ -13,5 +14,5 @@ class Commande {
  final String adresse_client ;
  late var  message;
  var numero_commande;
- Commande(this.numero_commande,this.adresse_restaurant, this.adresse_client, {required this.restaurant,this.date,required this.plats,required this.etat,this.message});
+ Commande(this.numero_commande,this.adresse_restaurant, this.adresse_client, this.ImageUrl, {required this.restaurant,this.date,required this.plats,required this.etat,this.message});
 }

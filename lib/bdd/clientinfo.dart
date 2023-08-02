@@ -173,7 +173,7 @@ langlat()async{
       time = dt.hour.toString() + ":" + dt.minute.toString();
     }
 
-
+   String date =dt.day.toString()+'-'+dt.month.toString()+'-'+dt.year.toString();
 
     await clientCollection
         .doc(uid)
@@ -194,13 +194,18 @@ langlat()async{
         .collection('Commandes')
         .add({
       "nom": CartController.commande.restaurant,
-      "date": time.toString(),
+      "date": date.toString(),
+      'heur':time.toString(),
       'Livraison':CartController.commande.livraison,
       'etat':'En cours',
       'Prix de plats':p,
       'description':s,
       "Latitude": lat,
       'Longitude':long,
+      'message':s,
+      'client':this.uid,
+      'imageUrl':CartController.commande.ImageUrl,
+      'code':CartController.commande.numero_commande,
     });
 
 
