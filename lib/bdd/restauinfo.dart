@@ -121,7 +121,7 @@ List<Promotion> _promoListo(QuerySnapshot snapshot) {
 return snapshot.docs.map((doc) {
 
 return Promotion(
-image: doc.get("pic").toString(),
+image: doc.get("ImageUrl").toString(),
 nameRestaurant: doc.get("name").toString(),
 offre: doc.get("offre").toString(),
 descriptionOffre: doc.get("descOffre").toString(), ResId:  doc.get("ResId"),);
