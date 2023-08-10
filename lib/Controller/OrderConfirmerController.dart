@@ -10,7 +10,7 @@ class OrderConfirmerController extends GetxController{
    /* for(Food food in CartController.commande.plats) {
       food.ajouter.value=false;
     }*/
-   CartController.commande= Commande('', '' ,restaurant:'',plats:<Food>[].obs,etat: '', numero_commande: '');
+   CartController.commande= Commande('', '' , '' ,'',restaurant:'',plats:<Food>[].obs,etat: '');
     update() ;
 
   }

@@ -19,13 +19,13 @@ class MesCommandes extends StatelessWidget {
     Get.put(MesCommandesScreenController(), permanent: true);
     final user = Provider.of<MyUser?>(context);
 
-
     return StreamBuilder<List<MaCommande>>(
         stream:  DatabaseService(uid: user!.uid).MaCommand,
         builder: (context, snapshot) {
 
           if (snapshot.hasData) {
             controller.command.value = snapshot.data!;
+            controller.command.value= controller.command.reversed.toList();
           }
           return Scaffold(
             body: SingleChildScrollView(
@@ -197,6 +197,7 @@ class MesCommandes extends StatelessWidget {
                                                             if (snapshot.hasData) {
                                                               plats = snapshot.data!;
                                                             }
+
                                                             return Column(
                                                                 mainAxisSize:
                                                                 MainAxisSize.min,

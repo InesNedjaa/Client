@@ -8,7 +8,7 @@ import '../View/Food.dart';
 import '../classes/commande.dart';
 
 class CartController extends GetxController {
-  static   Commande commande=Commande( '',''  ,restaurant:'',plats:<Food>[].obs,etat: '', numero_commande: '');
+  static   Commande commande=Commande( '','' , '' ,'',restaurant:'',plats:<Food>[].obs,etat: '');
 
   void increment(var total , var counter , double prix , var cout_total) {
 
@@ -36,7 +36,7 @@ class CartController extends GetxController {
   void Remove_from_cart(List<Food> cart   ,Food food) {
     int index= cart.indexOf(food) ;
     index!= -1 ?  cart.removeAt(index)  : null ;
-    cart.length==0 ?  commande= Commande('', ''  ,restaurant:'',plats:<Food>[].obs,etat: '', numero_commande: ''): null ;
+    cart.length==0 ?  commande= Commande('', '' , '' ,'',restaurant:'',plats:<Food>[].obs,etat: ''): null ;
     update() ;
   }
 

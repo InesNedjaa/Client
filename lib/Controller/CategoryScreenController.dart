@@ -7,9 +7,9 @@ import '../View/Restaurant.dart';
 import '../Wrappers/wrapper2.dart';
 
 class CategoryScreenController extends GetxController{
- RxList<Food_Search> food = <Food_Search>[].obs;
+
  List<Restaurant> restaurant = [] ;
- void categories_items (AsyncSnapshot snapshot){
+ void categories_items (AsyncSnapshot snapshot ,List<Food_Search> food ){
    if(snapshot.hasData){
      for (Food plat in snapshot.data!) {
        int i = restaurant.indexWhere((element) => plat.resId == element.id);

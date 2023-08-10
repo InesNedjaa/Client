@@ -68,6 +68,7 @@ class Restaurant extends StatelessWidget {
               ));
             },
             child: Container(
+              height: 300.h ,
               child:
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,

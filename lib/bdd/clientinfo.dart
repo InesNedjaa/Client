@@ -26,18 +26,18 @@ class DatabaseService {
   updatUserdata() {
     clientCollection.doc(uid).get().then((value) {
       if (!value.exists) {
-        clientCollection.doc(uid).update(
-            { "panier": 0.toInt() });
+        clientCollection.doc(uid).set(
+            { "panier": 0.toInt()});
       }
     });
   }
   update_user_Data(String nom , String address) {
-      clientCollection.doc(uid).get().then((value) {
-        if (value.exists) {
-          clientCollection.doc(uid).update(
-              { "nom" : nom , "address" : address});
-        }
-      });
+    clientCollection.doc(uid).get().then((value) {
+      if (value.exists) {
+        clientCollection.doc(uid).update(
+            { "nom" : nom , "address" : address});
+      }
+    });
 
   }
   int _existpanier(DocumentSnapshot snapshot) {
@@ -52,8 +52,7 @@ class DatabaseService {
   }
   //*******************************************************************************************
   String _Lenom(DocumentSnapshot snapshot) {
-    return
-      snapshot.get("nom").toString();
+    return snapshot.get("nom").toString();
   }
 
   Stream<String> get Lenom {
@@ -170,16 +169,16 @@ class DatabaseService {
 
 
 
-langlat()async{
-  await clientCollection
-      .doc(uid)
-      .get()
-      .then((value) => long = value.get("longitude"));
-  await clientCollection
-      .doc(uid)
-      .get()
-      .then((value) => lat = value.get("latitude"));
-}
+  langlat()async{
+    await clientCollection
+        .doc(uid)
+        .get()
+        .then((value) => long = value.get("longitude"));
+    await clientCollection
+        .doc(uid)
+        .get()
+        .then((value) => lat = value.get("latitude"));
+  }
   writeCommande(String s) async {
     var dt = DateTime.now();
     String time;
@@ -193,7 +192,7 @@ langlat()async{
       time = dt.hour.toString() + ":" + dt.minute.toString();
     }
 
-
+    String date =dt.day.toString()+'-'+dt.month.toString()+'-'+dt.year.toString();
 
     await clientCollection
         .doc(uid)
@@ -214,13 +213,18 @@ langlat()async{
         .collection('Commandes')
         .add({
       "nom": CartController.commande.restaurant,
-      "date": time.toString(),
+      "date": date.toString(),
+      'heur':time.toString(),
       'Livraison':CartController.commande.livraison,
       'etat':'En cours',
       'Prix de plats':p,
       'description':s,
       "Latitude": lat,
       'Longitude':long,
+      'message':s,
+      'client':this.uid,
+      'imageUrl':CartController.commande.ImageUrl,
+      'code':CartController.commande.numero_commande,
     });
 
 
@@ -258,10 +262,10 @@ langlat()async{
     double s=0;
     for (int i=0;i<CartController.commande.plats.length;i++) {
       s=s+CartController.commande.plats[i].prix*CartController.commande.plats[i].counter.toDouble();
-      
+
     }
 
-   var t= await FirebaseFirestore.instance
+    var t= await FirebaseFirestore.instance
         .collection('Client')
         .doc(uid)
         .collection("commande")
@@ -273,17 +277,17 @@ langlat()async{
       'Vos commandes':s.toDouble(),
     });
     for (int i=0;i<CartController.commande.plats.length;i++) {
-    await FirebaseFirestore.instance
-        .collection('Client')
-        .doc(uid)
-        .collection("commande").doc(t.id).collection('plat').add({
+      await FirebaseFirestore.instance
+          .collection('Client')
+          .doc(uid)
+          .collection("commande").doc(t.id).collection('plat').add({
 
-    "nom" :CartController.commande.plats[i].name,
-    "description":CartController.commande.plats[i].description,
-    "prix":CartController.commande.plats[i].prix.toInt(),
-    "quantite":CartController.commande.plats[i].counter.toInt(),
+        "nom" :CartController.commande.plats[i].name,
+        "description":CartController.commande.plats[i].description,
+        "prix":CartController.commande.plats[i].prix.toInt(),
+        "quantite":CartController.commande.plats[i].counter.toInt(),
 
-    });}
+      });}
 
   }
 ////////////////////////////////////////////////////////////////
@@ -294,32 +298,18 @@ langlat()async{
 ////////////////////////////////////////////////////////////////
 
   List<MaCommande> _MacommandList(QuerySnapshot snapshot) {
-    List<MaCommande> maCommandes = snapshot.docs.map((doc) {
+    return snapshot.docs.map((doc) {
       return MaCommande(
-        nom: doc.get("nom").toString(),
-        id: doc.id.toString(),
-        date: doc.get("date").toString(),
-        livraison: doc.get("Livraison").toInt(),
-        total: doc.get("Livraison").toInt() + doc.get("Livraison").toInt(),
-        etat: doc.get("etat").toString(),
-        voscommande: doc.get("Vos commandes").toInt(),
+          nom: doc.get("nom").toString(),
+          id: doc.id.toString(),
+          date: doc.get("date").toString(),
+          livraison: doc.get("Livraison").toInt(),
+          total: doc.get("Livraison").toInt()+doc.get("Livraison").toInt(),
+          etat:doc.get("etat").toString(),
+          voscommande: doc.get("Vos commandes").toInt(),
       );
     }).toList();
-
-
-    maCommandes.sort((a, b) {
-      if (a.etat == "En cours" && b.etat != "En cours") {
-        return -1;
-      } else if (a.etat != "En cours" && b.etat == "En cours") {
-        return 1; //
-      } else {
-        return a.date.compareTo(b.date);
-      }
-    });
-
-    return maCommandes;
   }
-
 
   Stream<List<MaCommande>> get MaCommand {
     return clientCollection
@@ -392,4 +382,19 @@ langlat()async{
 
 
 
- // 5 fonction
+// 5 fonction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

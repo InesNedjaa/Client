@@ -89,10 +89,11 @@ class CategoryScreen extends StatelessWidget {
                               FutureBuilder<List<Food>>(
                                   future: RestauService().getFoodListByCategory(id),
                                   builder: (context, snapshot) {
-                                     controller.categories_items(snapshot);
+                                    List<Food_Search> food = <Food_Search>[];
+                                     controller.categories_items(snapshot , food);
                                 return ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: controller.food.length,
+                                    itemCount: food.length,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       return Row(
@@ -101,7 +102,7 @@ class CategoryScreen extends StatelessWidget {
                                           Container(
                                             height: 270.h,
                                             width:281.w ,
-                                            child: controller.food[index] ,
+                                            child: food[index] ,
                                           ),
                                           // Spacer(flex: 14,)
                                         ],

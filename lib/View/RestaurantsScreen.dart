@@ -24,71 +24,79 @@ class RestaurantsScreen extends StatelessWidget {
               Scaffold(
 
                   body:
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Positioned(
-                        top: 10.h,
-                        left: 13.w,
-                        child: SizedBox(
-                          height: 28.h,
-                          width: 29.w,
-                          child: FloatingActionButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Colors.black,
-                              size: 20.sp,
+                  SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height : 10.h),
+                        Row(
+                          children: [
+                            SizedBox(width : 13.w),
+                            SizedBox(
+                              height: 28.h,
+                              width: 29.w,
+                              child: FloatingActionButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.black,
+                                  size: 20.sp,
+                                ),
+                                backgroundColor: Color(0xffDFDFDF),
+                              ),
                             ),
-                            backgroundColor: Color(0xffDFDFDF),
-                          ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 25.h,),
-
-                      SizedBox(height:10.h) ,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SizedBox(width: 13.w,),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: AutoSizeText(
-                              'Restaurants',
-                              maxLines: 1,
-                              style: TextStyle(fontSize: 28.sp, fontFamily: 'Golos'),
+                        SizedBox(height: 25.h,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(width: 13.w,),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: AutoSizeText(
+                                'Restaurants',
+                                maxLines: 1,
+                                style: TextStyle(fontSize: 28.sp, fontFamily: 'Golos'),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h,),
-                      GetBuilder<Restaurants_controller>(
-                          builder: (controller){return
-                            FutureBuilder<List<Restaurant>>(
-                                future: RestauService().getRestaurantList() ,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    controller.restaurants = snapshot.data!;
+                          ],
+                        ),
+                        SizedBox(height: 20.h,),
+                        GetBuilder<Restaurants_controller>(
+                            builder: (controller){return
+                              FutureBuilder<List<Restaurant>>(
+                                  future: RestauService().getRestaurantList() ,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      controller.restaurants = snapshot.data!;
 
-                                  }
-                              return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: controller.restaurants.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Column(
-                                      children: [
-                                        controller.restaurants[index],
-                                        SizedBox(height: 30.w,)
-                                      ],
-                                    ) ;
-                                  });
-                            }
-                          ); })
-                    ],
+                                    }
+                                return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: controller.restaurants.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(width: 13.w,),
+                                              controller.restaurants[index],
+                                            ],
+                                          ),
+                                          SizedBox(height: 30.w,)
+                                        ],
+                                      ) ;
+                                    });
+                              }
+                            ); })
+                      ],
+                    ),
                   )
               )
     )  ;
