@@ -37,36 +37,35 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<MyUser?>.value(
-      value: AuthService().user,
-      initialData: null,
-      catchError: (e, i) => null,
-      builder: (context, snapshot) {
-        return ScreenUtilInit(
-            designSize: const Size(428, 926),
-            splitScreenMode: true,
-            minTextAdapt: true,
-            builder: ( context, Widget? child) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-        ),
-          initialRoute: 'wrapper',
-        routes: {
-          '/': (context) => Wrapper(),
-          //'login':(context)=>LoginScreen(),
-          '/acceuil': (context) => Home(),
-          '/otp': (context) => OTPScreen(phoneNumber: null,),
-          '/adresse': (context) => AdresseScreen(),
-          '/welcome': (context) => WelcomeScreen(),
-          '/confirmation' : (context) => ConfirmationOrdersScreen(),
-          '/mescommandes': (context) => MesCommandes(),
-         },
-        );
+        value: AuthService().user,
+        initialData: null,
+        catchError: (e, i) => null,
+        builder: (context, snapshot) {
+          return ScreenUtilInit(
+              designSize: const Size(428, 926),
+              splitScreenMode: true,
+              minTextAdapt: true,
+              builder: ( context, Widget? child) {
+                return GetMaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  theme: ThemeData(
+                    scaffoldBackgroundColor: Colors.white,
+                  ),
+                  initialRoute: 'wrapper',
+                  routes: {
+                    '/': (context) => Wrapper(),
+                    //'login':(context)=>LoginScreen(),
+                    '/acceuil': (context) => Home(),
+                    '/otp': (context) => OTPScreen(phoneNumber: null,),
+                    '/adresse': (context) => AdresseScreen(),
+                    '/welcome': (context) => WelcomeScreen(),
+                    '/confirmation' : (context) => ConfirmationOrdersScreen(),
+                    '/mescommandes': (context) => MesCommandes(),
+                  },
+                );
+              }
+          );
         }
-   );
-      }
     );
   }
 }
-

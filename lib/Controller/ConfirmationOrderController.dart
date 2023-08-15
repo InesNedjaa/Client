@@ -17,8 +17,8 @@ class ConfirmationOrderController extends GetxController{
     CartController.commande.message=message.text;
     CartController.commande.date=DateFormat('dd-MM-yy').format(DateTime.now());
     CartController.commande.etat='En cours' ;
-    await DatabaseService(uid: user!.uid).writeCommande(message.text );
-    await DatabaseService(uid: user!.uid).writecommandetouser();
+    await DatabaseService(uid: user!.uid).writeCommande(message.text ,CartController.commande.numero_commande);
+    await DatabaseService(uid: user!.uid).writecommandetouser(CartController.commande.numero_commande);
     message.dispose() ;
     handle_button =true ;
     Get.off(OrderConfirmerScreen(id_commande: CartController.commande.numero_commande,)) ;

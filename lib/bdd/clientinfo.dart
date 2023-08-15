@@ -179,7 +179,7 @@ class DatabaseService {
         .get()
         .then((value) => lat = value.get("latitude"));
   }
-  writeCommande(String s) async {
+  writeCommande(String s,String code ) async {
     var dt = DateTime.now();
     String time;
     if (dt.hour < 10 && dt.minute < 10) {
@@ -224,7 +224,7 @@ class DatabaseService {
       'message':s,
       'client':this.uid,
       'imageUrl':CartController.commande.ImageUrl,
-      'code':CartController.commande.numero_commande,
+      'code':code,
     });
 
 
@@ -246,7 +246,7 @@ class DatabaseService {
 
     }
   }
-  writecommandetouser() async {
+  writecommandetouser(String code) async {
 
     var dt = DateTime.now();
     String time;
@@ -275,6 +275,7 @@ class DatabaseService {
       'Livraison':CartController.commande.livraison,
       'etat':'En cours',
       'Vos commandes':s.toDouble(),
+      'code':code,
     });
     for (int i=0;i<CartController.commande.plats.length;i++) {
       await FirebaseFirestore.instance
@@ -307,6 +308,7 @@ class DatabaseService {
           total: doc.get("Livraison").toInt()+doc.get("Livraison").toInt(),
           etat:doc.get("etat").toString(),
           voscommande: doc.get("Vos commandes").toInt(),
+          code: doc.get('code').toString(),
       );
     }).toList();
   }

@@ -11,9 +11,9 @@ class Panier{
 }
 class MaCommande{
   final String id , nom;
-  final String date,etat ;
+  final String date,etat,code ;
   final int voscommande, livraison, total;
-  MaCommande( {required this.id, required this.date, required this.livraison, required this.total, required this.voscommande, required this.etat , required this.nom});
+  MaCommande( {required this.id, required this.date, required this.livraison, required this.total, required this.voscommande, required this.etat , required this.nom,required this.code});
 
 }
 class Maplat{
