@@ -1,10 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
-
 import '../View/OrderConfirmer.dart';
 import '../bdd/clientinfo.dart';
 import 'CartController.dart';
@@ -13,15 +11,16 @@ class ConfirmationOrderController extends GetxController{
   final message = new TextEditingController();
   bool handle_button = false ;
   Future<void> confirm_command(user) async {
-    CartController.commande.numero_commande=generate_num_command();
+    String code =generate_num_command();
+
     CartController.commande.message=message.text;
     CartController.commande.date=DateFormat('dd-MM-yy').format(DateTime.now());
     CartController.commande.etat='En cours' ;
-    await DatabaseService(uid: user!.uid).writeCommande(message.text ,CartController.commande.numero_commande);
-    await DatabaseService(uid: user!.uid).writecommandetouser(CartController.commande.numero_commande);
+    await DatabaseService(uid: user!.uid).writeCommande(message.text ,code);
+    await DatabaseService(uid: user!.uid).writecommandetouser(code);
     message.dispose() ;
     handle_button =true ;
-    Get.off(OrderConfirmerScreen(id_commande: CartController.commande.numero_commande,)) ;
+    Get.off(OrderConfirmerScreen(id_commande: code,)) ;
     update();
   }
   String generate_num_command(){

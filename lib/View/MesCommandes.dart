@@ -268,7 +268,7 @@ class MesCommandes extends StatelessWidget {
                                                         alignment: Alignment
                                                             .centerLeft,
                                                         child: AutoSizeText(
-                                                          '${controller.command[index].id}',
+                                                          '${controller.command[index].code}',
                                                           style: TextStyle(
                                                               fontSize: 15.sp,
                                                               fontWeight:

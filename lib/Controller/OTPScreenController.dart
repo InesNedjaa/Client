@@ -77,7 +77,7 @@ class OTPScreenController extends GetxController{
     digitCode3.dispose();
     digitCode4.dispose();
     digitCode5.dispose();
-    digitCode6.dispose();;
+    digitCode6.dispose();
     super.onClose();
   }
 

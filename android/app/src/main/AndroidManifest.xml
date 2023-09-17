@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.READ_SMS" />
 
     <application
-        android:label="project"
+        android:label="LTC Express"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
        <meta-data android:name="com.google.android.geo.API_KEY"
