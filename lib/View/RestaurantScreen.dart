@@ -42,6 +42,9 @@ class RestaurantScreen extends StatelessWidget {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               tableau = snapshot.data!;
+              controller.inisialize(tableau.length, 0) ;
+            } else {
+              controller.inisialize(0, 0) ;
             }
             return SafeArea(
                 child:  Scaffold(

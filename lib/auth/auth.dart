@@ -25,14 +25,16 @@ class AuthService{
 // signe out
   Future singeOut() async {
     try{
-      Get.to(LoginScreen());
+
+      Get.offAll(LoginScreen());
       return await _auth.signOut();
+
+
     }catch(e){
       return null ;
     }
   }
 
 
-// 1 fonction
 
 }

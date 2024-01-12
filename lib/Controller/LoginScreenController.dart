@@ -33,12 +33,7 @@ class LoginScreenController extends GetxController {
       throw 'Could not launch $_number';
     update();
   }
-  void createNewUser(String numTel,String nom)async {
 
-
-
-
-  }
   Future signInWithPhoneNumber() async {
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
@@ -51,13 +46,45 @@ class LoginScreenController extends GetxController {
 
             });
           },
-          verificationFailed: (FirebaseException e) {
+          verificationFailed: (FirebaseException error) {
+            switch (error.code) {
+              case "invalid-phone-number":
+                AppController.showDialogButton('Numéro de téléphone incorrect',
+                    'votre numéro de téléphone est erroné, veuillez ajouter', 'un numéro de téléphone  valide',
+                    'assets/json/exclamation.json', () {
+                      Get.back;
+                    });
+                break;
+              case "missing-phone-number":
+                AppController.showDialogButton('Numéro de téléphone incorrect',
+                    'votre numéro de téléphone est erroné, veuillez ajouter', 'un numéro de téléphone  valide',
+                    'assets/json/exclamation.json', () {
+                      Get.back;
+                    });
+                break;
+              case "too-many-requests":
+                AppController.showDialogButton('Votre compte est blocké',
+                    'votre compte est blocké, veuillez contacter', 'notre service',
+                    'assets/json/exclamation.json', () {
+                      Get.back;
+                    });
+                break;
 
-            AppController.showDialogButton('le code de vérification est erroné',
-                'votre code est erroné, veuillez ajouter', 'un code valide',
-                'assets/json/exclamation.json', () {
-                  Get.back();
-                });
+
+
+
+
+
+              default:
+                AppController.showDialogButton('Une erreur se produite',
+                    'Veuillez vérifier votre connexion', '',
+                    'assets/json/exclamation.json', () {
+                      Get.back;
+                    });
+            }
+
+            print("why verification is failed ???????????????????????????????????????????${error.code}");
+            print(error);
 
           },
           codeSent: (String verifictaionID, int? resendToken) {
@@ -74,6 +101,7 @@ class LoginScreenController extends GetxController {
     } catch (e) {
 
     }
+    update();
   }
 
 

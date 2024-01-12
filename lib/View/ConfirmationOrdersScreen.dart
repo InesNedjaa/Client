@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import '../Controller/AppController.dart';
 import '../Themes/Theme.dart';
 import '../auth/user.dart';
 import '../bdd/clientinfo.dart';
@@ -19,7 +20,7 @@ class ConfirmationOrdersScreen extends StatelessWidget {
  ConfirmationOrderController controller =Get.put(ConfirmationOrderController() , permanent: false) ;
 
  RxString address= "".obs ;
- final user = Provider.of<MyUser?>(context);
+
     return
       SafeArea(
         child: Scaffold(
@@ -34,9 +35,8 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Spacer(flex: 1,) ,
-                    Positioned(
-                      top: 10.h,
-                      left: 13.w,
+                    Padding(
+                      padding:  EdgeInsets.only(top: 10.h , left : 13.w),
                       child: SizedBox(
                         height: 28.h,
                         width: 29.w,
@@ -87,7 +87,7 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                                 children: [
 
                                   StreamBuilder<String>(
-                                      stream: DatabaseService(uid: user!.uid).address,
+                                      stream: DatabaseService(uid: AppController.user!.uid).address,
                                       builder: (context, snapshot) {
 
                                         if (snapshot.hasData){
@@ -109,7 +109,7 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                             ) ,
                             TextButton(
                               onPressed: () {
-                                Get.to(AdresseScreen());
+                                Get.toNamed('/adresse');
                               },
                               child: AutoSizeText(
                                 'Modifier' ,
@@ -158,13 +158,16 @@ class ConfirmationOrdersScreen extends StatelessWidget {
                                   side: BorderSide(color: Colors.red))),
 
                             onPressed: () async {
+
                               try{
+
                                 List<Location> locations = await locationFromAddress(address.value);
-                                await DatabaseService(uid: user!.uid).longitude(locations[0].longitude);
-                                await DatabaseService(uid: user.uid).latitude(locations[0].latitude);
-                                controller.confirm_command(user);
+                                await DatabaseService(uid: AppController.user!.uid).longitude(locations[0].longitude);
+                                await DatabaseService(uid: AppController.user!.uid).latitude(locations[0].latitude);
+                                controller.confirm_command();
                                 }
                               catch(e){
+
                                 print(e);
 
                               }

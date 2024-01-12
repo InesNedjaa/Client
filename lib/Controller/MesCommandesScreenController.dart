@@ -6,7 +6,7 @@ import '../bdd/classes.dart';
 
 class MesCommandesScreenController extends GetxController{
 
-  RxList<MaCommande>command=<MaCommande>[].obs;
+  List<MaCommande>command=[];
   double coutPartiel(List<Maplat> plats){
     double somme=0;
     for(int i=0;i<plats.length;i++){

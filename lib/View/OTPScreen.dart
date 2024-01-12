@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:project/Controller/LoginScreenController.dart';
-import '../Controller/AppController.dart';
+import 'package:project/Controller/AppController.dart';
+import 'package:provider/provider.dart';
 import '../Controller/OTPScreenController.dart';
+import '../auth/user.dart';
 import 'LoginScreen.dart';
 
 class OTPScreen extends StatefulWidget {
@@ -161,8 +162,13 @@ class _OTPScreenState extends State<OTPScreen> {
                           controller.submit4 &&
                           controller.submit5 &&
                           controller.submit6
-                          ? () =>
-                         controller.verificationCodeOTP()
+                          ? ()
+                        {
+                          controller.verificationCodeOTP() ;
+                          print("check if the user is null in address screeeeeeeeeeeeeen ${AppController.user}");
+
+
+                        }
                           : null,
                       child: Text(
                         'Continue',

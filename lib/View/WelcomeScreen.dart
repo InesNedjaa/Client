@@ -5,6 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:project/View/AdresseScreen.dart';
+import 'package:provider/provider.dart';
+
+import '../Controller/AppController.dart';
+import '../auth/user.dart';
 
 
 class WelcomeScreen extends StatelessWidget {
@@ -62,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                   height: 56.h,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.off(()=>AdresseScreen());
+                      Get.to(()=>AdresseScreen());
                     },
                     child: Text(
                       'Continue',

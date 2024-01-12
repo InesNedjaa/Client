@@ -4,13 +4,14 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:label="LTC Express"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyD6fpaflchqg2U_-0V7-CJ_M0ilRCITaeI"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD6fpaflchqg2U_-0V7-CJ_M0ilRCITaeI"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -24,9 +25,9 @@
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->
             <meta-data
-              android:name="io.flutter.embedding.android.NormalTheme"
-              android:resource="@style/NormalTheme"
-              />
+                android:name="io.flutter.embedding.android.NormalTheme"
+                android:resource="@style/NormalTheme"
+                />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

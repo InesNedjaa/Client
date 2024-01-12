@@ -45,14 +45,13 @@ class OTPScreenController extends GetxController{
   Future<void> verificationCodeOTP() async {
     code = digitCode1.text+digitCode2.text+digitCode3.text+digitCode4.text+digitCode5.text+digitCode6.text;
     try {
-      UserCredential result = await FirebaseAuth
-          .instance
-          .signInWithCredential(
+      UserCredential result = await FirebaseAuth.instance.signInWithCredential(
           PhoneAuthProvider.credential(
               verificationId: LoginScreenController.verificationCode,
-              smsCode: code));
-      DatabaseService(uid: result.user!.uid)
-          .updatUserdata();
+              smsCode: code)
+      );
+      DatabaseService(uid: result.user!.uid).updatUserdata();
+      AppController.user = result.user;
       Get.toNamed('/welcome');
 
     } catch (e) {
@@ -66,8 +65,8 @@ class OTPScreenController extends GetxController{
           }
       );
 
-      // Get.off(()=>WelcomeScreen());
     }
+    update();
   }
 
   @override

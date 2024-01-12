@@ -53,9 +53,7 @@ class Restaurant extends StatelessWidget {
           List tableau = controller.Data(snapshot);
           return InkWell(
             onTap: () {
-              RestaurantScreen_controller tab =
-              Get.put(RestaurantScreen_controller(), permanent: true);
-              tab.inisialize(tableau.length, 0);
+
 
               Get.to(() => RestaurantScreen(
                 image: image,

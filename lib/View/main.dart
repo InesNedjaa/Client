@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:project/View/ConfirmationOrdersScreen.dart';
 import 'package:provider/provider.dart';
+import '../Controller/AppController.dart';
 import '../Wrappers/wrapper.dart';
 import '../auth/auth.dart';
 import '../auth/user.dart';
@@ -22,12 +23,15 @@ import 'WelcomeScreen.dart';
 
 
 Future<void> main() async {
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FlutterError.onError = (details) {
     FlutterError.presentError(details);
     if (kReleaseMode) exit(1);
   };
+
+
   runApp(const MyApp());
 }
 
@@ -36,34 +40,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<MyUser?>.value(
-        value: AuthService().user,
-        initialData: null,
-        catchError: (e, i) => null,
-        builder: (context, snapshot) {
-          return ScreenUtilInit(
-              designSize: const Size(428, 926),
-              splitScreenMode: true,
-              minTextAdapt: true,
-              builder: ( context, Widget? child) {
-                return GetMaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  theme: ThemeData(
-                    scaffoldBackgroundColor: Colors.white,
-                  ),
-                  initialRoute: 'wrapper',
-                  routes: {
-                    '/': (context) => Wrapper(),
-                    //'login':(context)=>LoginScreen(),
-                    '/acceuil': (context) => Home(),
-                    '/otp': (context) => OTPScreen(phoneNumber: null,),
-                    '/adresse': (context) => AdresseScreen(),
-                    '/welcome': (context) => WelcomeScreen(),
-                    '/confirmation' : (context) => ConfirmationOrdersScreen(),
-                    '/mescommandes': (context) => MesCommandes(),
-                  },
-                );
-              }
+
+    return ScreenUtilInit(
+        designSize: const Size(428, 926),
+        splitScreenMode: true,
+        minTextAdapt: true,
+        builder: ( context, Widget? child) {
+          return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              scaffoldBackgroundColor: Colors.white,
+            ),
+            initialRoute: 'wrapper',
+            routes: {
+              '/': (context) => Wrapper(),
+              //'login':(context)=>LoginScreen(),
+              '/acceuil': (context) => Home(),
+              '/otp': (context) => OTPScreen(phoneNumber: null,),
+              '/adresse': (context) => AdresseScreen(),
+              '/welcome': (context) => WelcomeScreen(),
+              '/confirmation' : (context) => ConfirmationOrdersScreen(),
+              '/mescommandes': (context) => MesCommandes(),
+            },
           );
         }
     );

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
-Widget customWithButtonDialog({required title,required ligne1,required ligne2,required asset,fonction} ){
+Widget customWithButtonDialog({required title,required ligne1,required ligne2,required asset,required void Function() fonction} ){
   return Column(
     children: [
       Spacer(flex: 210,),

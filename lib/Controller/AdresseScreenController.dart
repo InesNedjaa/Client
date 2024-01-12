@@ -22,10 +22,7 @@ class AdresseScreenController extends GetxController{
   }
 
 
-void addAdresseUser(String adresse){
 
-
-}
 
 
   @override

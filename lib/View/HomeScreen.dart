@@ -9,9 +9,8 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:project/auth/auth.dart';
 import 'package:project/bdd/clientinfo.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
+import '../Controller/AppController.dart';
 import '../Controller/HomeScreenController.dart';
 import '../Controller/LoginScreenController.dart';
 import '../Themes/Theme.dart';
@@ -19,9 +18,7 @@ import '../auth/user.dart';
 import '../bdd/classes.dart';
 import '../bdd/restauinfo.dart';
 import '../classes/promotion.dart';
-import 'AdresseScreen.dart';
 import 'Restaurant.dart';
-import 'RestaurantScreen.dart';
 import 'RestaurantsScreen.dart';
 import 'categoryScreen.dart';
 
@@ -30,7 +27,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeScreenController controller = Get.put(HomeScreenController(), permanent: true);
-    final user = Provider.of<MyUser?>(context);
+
     var is_loaded = true ;
 
 
@@ -45,24 +42,28 @@ class Home extends StatelessWidget {
           ),
               Expanded(
                 child: StreamBuilder<String>(
-                  stream: DatabaseService(uid: user!.uid).Lenom,
+                  stream: DatabaseService(uid: AppController.user!.uid).Lenom,
                   builder: (context, snapshot) {
-                    RxString nom ="".obs ;
+
                     if (snapshot.hasData){
-                      nom.value=snapshot.data!;
+                      controller.nom.value=snapshot.data!;
 
                     }
-                    return AutoSizeText(
-            'Salut ${nom.value},\nBienvenue dans notre magasin !',
+                    return GetBuilder<HomeScreenController>(
+                      builder: (controller) {
+                        return AutoSizeText(
+            'Salut ${controller.nom.value},\nBienvenue dans notre magasin !',
             style: theme().textTheme.bodyText1?.copyWith(color: Colors.black)
           );
+                      }
+                    );
                   }
                 ),
               ),
               IconButton(onPressed: (){
-                LoginScreenController.nom.clear();
                 AuthService().singeOut();
 
+                LoginScreenController.nom.clear();
               },
                   icon: Icon(EvaIcons.logInOutline , color: Colors.black, size: 30.sp,)
               )
@@ -87,7 +88,7 @@ class Home extends StatelessWidget {
                     SizedBox(width: 7.w,),
                     Expanded(
                       child: StreamBuilder<String>(
-                        stream: DatabaseService(uid: user!.uid).address,
+                        stream: DatabaseService(uid: AppController.user!.uid).address,
                         builder: (context, snapshot) {
                           RxString address= "".obs ;
                           if (snapshot.hasData){
@@ -105,7 +106,7 @@ class Home extends StatelessWidget {
                       ),
                     ),
                     TextButton(
-                        onPressed: ()=> Get.to(AdresseScreen()),
+                        onPressed: ()=> Get.toNamed('/adresse'),
                         child: AutoSizeText(
                           'Modifier',
                           style: TextStyle(
@@ -293,17 +294,17 @@ class Home extends StatelessWidget {
                 List<Restaurant> l =[];
 
                 if (snapshot.hasData){
-                  l=snapshot.data!;
+                  HomeScreenController.restaurants=snapshot.data!;
                 }
                 return ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount: l.length,
+                      itemCount: HomeScreenController.restaurants.length,
                       itemBuilder: (context, index) =>Row(
                         children: [
                           SizedBox(width: 13.w,),
-                          l[index],
+                          HomeScreenController.restaurants[index],
                         ],
                       )
                       );

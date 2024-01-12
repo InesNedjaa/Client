@@ -15,7 +15,7 @@ class Wrapper3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<MyUser?>(context);
+
 
     return FutureBuilder<List<Restaurant>>(
         future: RestauService().getRestaurantList() ,

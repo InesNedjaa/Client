@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:project/View/ConfirmationOrdersScreen.dart';
 import 'package:provider/provider.dart';
 import '../Controller/AdresseScreenController.dart';
+import '../Controller/AppController.dart';
 import '../Controller/LoginScreenController.dart';
 import '../auth/user.dart';
 import '../bdd/clientinfo.dart';
@@ -21,7 +22,7 @@ class AdresseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AdresseScreenController controller = Get.put( AdresseScreenController(),permanent: true,);
-    final user = Provider.of<MyUser?>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -137,15 +138,40 @@ class AdresseScreen extends StatelessWidget {
                 Container(
                   height: 56.h,
                   width: 401.w,
-                  child: GetBuilder(
-                    builder:(AdresseScreenController controller)=> ElevatedButton(
+                  child: GetBuilder<AdresseScreenController>(
+                    builder:(controler)=> ElevatedButton(
                       onPressed: controller.submitAdresse?()async {
                         FocusScope.of(context).unfocus();
-                        controller.addAdresseUser(controller.Adresse.text);
+                        print ('previous route isssssssssssssssssssssssss ${Get.previousRoute}');
+                        switch(Get.previousRoute) {
+                          case '/confirmation' :
+                            {
+                              await DatabaseService(
+                                  uid: AppController.user!.uid)
+                                  .update_user_Address(controller.Adresse.text);
+                              Get.toNamed('/confirmation' );
+                            }
+                            break;
 
-                        DatabaseService(uid: user!.uid).update_user_Data(LoginScreenController.nom.text ,controller.Adresse.text);
-                        Get.previousRoute == '/confirmation' ? Get.to(ConfirmationOrdersScreen()) :
-                         Get.off(Main_Page());
+                          case '/welcome' :
+                            {
+                              await DatabaseService(
+                                  uid: AppController.user!.uid)
+                                  .update_user_Data(
+                                  LoginScreenController.nom.text,
+                                  controller.Adresse.text);
+                              Get.offAll(Main_Page());
+                            }
+                            break;
+                          default :
+                            {
+                              await DatabaseService(
+                                  uid: AppController.user!.uid)
+                                  .update_user_Address(controller.Adresse.text);
+                              Get.offAll(Main_Page());
+                            }
+                            break;
+                        }
                       }:null,
                       child: Text(
                         'Continue',

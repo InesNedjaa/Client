@@ -34,7 +34,7 @@ class RestauService {
 
   Stream<List<Promotion>> get promotion {
     return FirebaseFirestore.instance
-        .collection('Promotion')
+        .collection("Promotion")
         .snapshots()
         .map((snapshot) => _promotion(snapshot));
   }
@@ -129,7 +129,7 @@ class RestauService {
   }
 
   Stream<List<Promotion>> get promoList {
-    return  FirebaseFirestore.instance.collection('Promotion')
+    return   FirebaseFirestore.instance.collection('Promotion')
         .snapshots()
         .map((snapshot) => _promoListo(snapshot));
   }

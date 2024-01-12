@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:project/Controller/CartController.dart';
 import '../View/Food.dart';
 import 'classes.dart';
-
+import 'package:intl/intl.dart';
 
 class DatabaseService {
   final String uid;
@@ -36,6 +36,15 @@ class DatabaseService {
       if (value.exists) {
         clientCollection.doc(uid).update(
             { "nom" : nom , "address" : address});
+      }
+    });
+
+  }
+  update_user_Address(String address) {
+    clientCollection.doc(uid).get().then((value) {
+      if (value.exists) {
+        clientCollection.doc(uid).update(
+            {  "address" : address});
       }
     });
 
@@ -180,19 +189,8 @@ class DatabaseService {
         .then((value) => lat = value.get("latitude"));
   }
   writeCommande(String s,String code ) async {
-    var dt = DateTime.now();
-    String time;
-    if (dt.hour < 10 && dt.minute < 10) {
-      time = "0" + dt.hour.toString() + ":0" + dt.minute.toString();
-    } else if (dt.hour < 10) {
-      time = "0" + dt.hour.toString() + "0" + dt.minute.toString();
-    } else if (dt.minute < 10) {
-      time = dt.hour.toString() + ":0" + dt.minute.toString();
-    } else {
-      time = dt.hour.toString() + ":" + dt.minute.toString();
-    }
 
-    String date =dt.day.toString()+'-'+dt.month.toString()+'-'+dt.year.toString();
+    String date =DateFormat('dd-MM-yy kk:mm').format(DateTime.now());
 
     await clientCollection
         .doc(uid)
@@ -213,8 +211,7 @@ class DatabaseService {
         .collection('Commandes')
         .add({
       "nom": CartController.commande.restaurant,
-      "date": date.toString(),
-      'heur':time.toString(),
+      "date": date,
       'Livraison':CartController.commande.livraison,
       'etat':'En cours',
       'Prix de plats':p,
@@ -247,7 +244,7 @@ class DatabaseService {
     }
   }
   writecommandetouser(String code) async {
-
+    String date =DateFormat('dd-MM-yy kk:mm').format(DateTime.now());
     var dt = DateTime.now();
     String time;
     if (dt.hour < 10 && dt.minute < 10) {
@@ -271,7 +268,7 @@ class DatabaseService {
         .collection("commande")
         .add({
       "nom": CartController.commande.restaurant,
-      "date": time.toString(),
+      "date": date,
       'Livraison':CartController.commande.livraison,
       'etat':'En cours',
       'Vos commandes':s.toDouble(),

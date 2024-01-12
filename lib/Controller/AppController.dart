@@ -6,12 +6,11 @@ import '../Widgets/customWithButtonDialog.dart';
 
 
 class AppController extends GetxController{
-
-
+  static var user ;
   static void showDialogButton(String title, String ligne1, String ligne2, String asset, void Function() function) async {
     Get.dialog(
       customWithButtonDialog(
-        fonction: () => function,
+        fonction:   function,
         title: title,
         ligne1: ligne1,
         ligne2: ligne2,

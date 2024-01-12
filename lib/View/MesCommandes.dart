@@ -3,9 +3,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
+import '../Controller/AppController.dart';
 import '../Controller/MesCommandesScreenController.dart';
-import '../auth/user.dart';
 import '../bdd/classes.dart';
 import '../bdd/clientinfo.dart';
 import 'Vide.dart';
@@ -17,15 +16,20 @@ class MesCommandes extends StatelessWidget {
   Widget build(BuildContext context) {
     MesCommandesScreenController controller =
     Get.put(MesCommandesScreenController(), permanent: true);
-    final user = Provider.of<MyUser?>(context);
+
 
     return StreamBuilder<List<MaCommande>>(
-        stream:  DatabaseService(uid: user!.uid).MaCommand,
+        stream:  DatabaseService(uid: AppController.user!.uid).MaCommand,
         builder: (context, snapshot) {
 
           if (snapshot.hasData) {
-            controller.command.value = snapshot.data!;
-            controller.command.value= controller.command.reversed.toList();
+            controller.command = snapshot.data!;
+             controller.command.sort((a, b) => a.date.compareTo(b.date));
+            controller.command= controller.command.reversed.toList();
+            print("succeeeeeeeeeeeeeeeeeeeeeeeeeeeeeess");
+          } else {
+            print("faileeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeed");
+            print(snapshot.error);
           }
           return Scaffold(
             body: SingleChildScrollView(
@@ -191,7 +195,7 @@ class MesCommandes extends StatelessWidget {
                                                       ),
 
                                                       StreamBuilder<List<Maplat>>(
-                                                          stream: DatabaseService(uid: user.uid).Mapla(controller.command[index].id),
+                                                          stream: DatabaseService(uid: AppController.user.uid).Mapla(controller.command[index].id),
                                                           builder: (context, snapshot) {
                                                             List<Maplat> plats = [];
                                                             if (snapshot.hasData) {
@@ -336,7 +340,7 @@ class MesCommandes extends StatelessWidget {
                                                         height: 11.h,
                                                       ),
                                                       StreamBuilder<List<Maplat>>(
-                                                          stream: DatabaseService(uid: user.uid).Mapla(controller.command[index].id),
+                                                          stream: DatabaseService(uid: AppController.user.uid).Mapla(controller.command[index].id),
                                                           builder: (context, snapshot) {
                                                             List<Maplat> plats = [];
                                                             if (snapshot.hasData) {
@@ -424,7 +428,7 @@ class MesCommandes extends StatelessWidget {
                                                         height: 7.h,
                                                       ),
                                                       StreamBuilder<List<Maplat>>(
-                                                          stream: DatabaseService(uid: user.uid).Mapla(controller.command[index].id),
+                                                          stream: DatabaseService(uid: AppController.user.uid).Mapla(controller.command[index].id),
                                                           builder: (context, snapshot) {
                                                             List<Maplat> plats = [];
                                                             if (snapshot.hasData) {

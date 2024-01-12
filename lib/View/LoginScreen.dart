@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:project/auth/auth.dart';
 import 'package:provider/provider.dart';
 import '../Controller/LoginScreenController.dart';
@@ -106,7 +107,8 @@ class LoginScreen extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child:
-                    TextFormField(
+
+                     TextFormField(
                       textAlign: TextAlign.left,
                       style: TextStyle(fontFamily: 'Golos', fontSize: 18.sp),
                       cursorColor: Colors.grey,
@@ -236,16 +238,10 @@ class LoginScreen extends StatelessWidget {
                         ElevatedButton(
                           onPressed: controller.submit1 && controller.submit2
                               ? () async {
-                            if (user!= null){
-                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
-                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
-                              print('jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj');
-                              await AuthService().singeOut();
-                            }
-                            controller.createNewUser(controller.phoneNumber.text,LoginScreenController.nom.text,);
+
+
                             await controller.signInWithPhoneNumber();
-                           // Get.to(OTPScreen(phoneNumber: controller.phoneNumber.text));
-                          } : null,
+                           } : null,
                           child: Text(
                             'Continue',
                             style: TextStyle(

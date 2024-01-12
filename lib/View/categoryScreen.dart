@@ -36,20 +36,10 @@ class CategoryScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    FutureBuilder<List<Restaurant>>(
-                    future: RestauService().getRestaurantList() ,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          controller.restaurant = snapshot.data!;
 
-                        }
-
-                        return Container();
-                      }),
                         SizedBox(height: 25.h,),
-                        Positioned(
-                          top: 10.h,
-                          left: 13.w,
+                        Padding(
+                          padding:  EdgeInsets.only(top: 10.h , left : 13.w),
                           child: SizedBox(
                             height: 28.h,
                             width: 29.w,
@@ -117,98 +107,5 @@ class CategoryScreen extends StatelessWidget {
           );
 
   }
-  Widget shimmer_restaurant ( List restaurant){
-    return
-      Shimmer.fromColors (
-          baseColor: Colors.grey[300]!,
-          highlightColor: Colors.grey[100]!,
-          period: Duration(seconds: 3),
-          child:  ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: restaurant.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  height: 300.h,
-                  width: double.maxFinite,
-                  child:
-                  Column(
-                    children: [
-                      Container(
-                        height: 300.h,
-                        width: double.maxFinite,
-                        child:Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                                height: 174.h ,
-                                width:398.w ,
-                                decoration : BoxDecoration(
-                                  color : Colors.white,
-                                  borderRadius: BorderRadius.circular(9.r) ,
 
-                                )
-                            ) ,
-                            SizedBox(height: 10.h,) ,
-                            Container(
-                                height : 20.h ,
-                                width: 150.w,
-                                decoration : BoxDecoration(
-                                  color : Colors.white,
-                                  borderRadius: BorderRadius.circular(9.r) ,
-
-                                )
-                            ),
-                            SizedBox(height: 10.h,) ,
-                            Container(
-                                height : 20.h ,
-                                width: 250.w,
-                                decoration : BoxDecoration(
-                                  color : Colors.white,
-                                  borderRadius: BorderRadius.circular(9.r) ,
-
-                                )
-                            ),
-
-
-                            SizedBox(height: 10.h,) ,
-                            Row(
-                              crossAxisAlignment:CrossAxisAlignment.center ,
-                              children: [
-                                Container(
-                                    height: 20.h,
-                                    width: 150.w,
-                                    decoration : BoxDecoration(
-                                      color : Colors.white,
-                                      borderRadius: BorderRadius.circular(9.r) ,
-
-                                    )
-                                ),
-                                SizedBox(width: 8.w,) ,
-                                Expanded(
-                                  child: Container(
-                                      height: 20.h,
-
-                                      decoration : BoxDecoration(
-                                        color : Colors.white,
-                                        borderRadius: BorderRadius.circular(9.r) ,
-
-                                      )
-                                  ),
-                                ),
-
-
-                              ],
-                            )
-                          ],
-                        ),
-
-                      ),
-
-                    ],
-                  ),
-                ) ;
-              }) );
-
-  }
 }

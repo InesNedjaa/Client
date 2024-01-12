@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:provider/provider.dart';
+import '../Controller/AppController.dart';
 import '../Controller/LoginScreenController.dart';
 import '../Controller/SearchController.dart' as search;
 
@@ -26,7 +27,7 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<MyUser?>(context);
+
 
     return SafeArea(
       child: Scaffold(
@@ -42,7 +43,7 @@ class SearchScreen extends StatelessWidget {
                     width: 13.w,
                   ),
                   StreamBuilder<String>(
-                      stream: DatabaseService(uid: user!.uid).Lenom,
+                      stream: DatabaseService(uid: AppController.user!.uid).Lenom,
                       builder: (context, snapshot) {
                         RxString nom ="".obs ;
                         if (snapshot.hasData){

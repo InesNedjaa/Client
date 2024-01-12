@@ -8,9 +8,10 @@ import '../classes/Category.dart';
 import '../classes/promotion.dart';
 
 class HomeScreenController extends GetxController {
+  RxString nom = "".obs;
   List list_of_data =[];
   List<cat> t =[];
-  final List<Restaurant> restaurants = [
+  static List<Restaurant> restaurants = [
 
   ];
   List<Promotion> promotion = [
